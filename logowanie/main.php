@@ -19,8 +19,9 @@
 
 <?php
 
-echo "<p>Hello, <b>".$_SESSION['name'].'</b>. [<a href="logout.php">Log out</a>]</p>';
+echo "<p>Hello, <b>".$_SESSION['fname'].'</b>.</p>';
 echo "<p>How are you feeling today?</p>";
+echo '<p><a href="logout.php">Log out</a></p>';
 
 ?>
 
