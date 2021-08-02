@@ -24,22 +24,24 @@
 		# the rest of the script
 		$login = $_POST['email'];
 		$pswd = $_POST['pswd'];
-		$sql = "SELECT * FROM users WHERE email='$login' AND pswd='$pswd'";
+
+		$login = htmlentities($login, ENT_QUOTES, "UTF-8");
+		$pswd = htmlentities($pswd, ENT_QUOTES, "UTF-8");
 
 		# if there wasn't any error in the query (i.e. something was incorrectly written)
-		if($result = @$connection->query($sql)) {
+		if($result = @$connection->query((sprintf("SELECT * FROM users WHERE email='%s' AND pswd='%s'", mysqli_real_escape_string($connection, $login), mysqli_real_escape_string($connection, $pswd))))) {
 			$no_users = $result->num_rows;
 			if($no_users>0) {
 				$_SESSION['loggedin'] = true;
 				$row = $result->fetch_assoc(); # creates an associative array which stores variables from $result not under indexes but under column names of the table
 
-				$_SESSION['name'] = $row['name'];
+				$_SESSION['fname'] = $row['first name'];
 				$_SESSION['id'] = $row['id'];
 
 				unset($_SESSION['error']);
 				$result->free(); # or $result->close(), or $result->free_result();
 
-				# redirecting to index.php
+				# redirecting to main.php
 				header('Location: main.php');
 			}
 			else {
