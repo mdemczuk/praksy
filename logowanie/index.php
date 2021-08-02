@@ -12,12 +12,15 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title>E-learning platform - log in</title>
+	<title>Log In - E-learning platform</title>
 </head>
 
 <body>
 	<h2>Welcome!</h2>
-	Please log in:<br /><br />
+
+	<p><a href="register.php">Register now</a></p>
+	
+	or log in:<br /><br />
 
 	<form action="login.php" method="post">
 		E-mail:<br /><input type="text" name="email" /><br />
@@ -33,5 +36,4 @@
 ?>
 
 </body>
-
 </html>
