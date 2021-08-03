@@ -42,16 +42,17 @@
 <head>
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title>E-learning platform</title>
+	<title>Ideas4learning</title>
 </head>
 
 <body>
-	<h2>All courses:</h2>
+	<h1 align="center">All courses:</h1>
 
 	<?php
 		if($no_courses > 0) {
 				for($x = 0; $x < $no_courses; $x++) {
-					echo "<p><b>".$titles[$x]."</b> <br />"."[<a href='course.php?courseid={$ids[$x]}'>More</a>]</p>";
+					$bin=$titles[$x];
+					echo "<h1 align='center'><a href='course.php?courseid={$ids[$x]}'>$bin</a></h1>";
 				}
 			}
 			else {
