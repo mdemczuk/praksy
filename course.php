@@ -53,13 +53,13 @@
 		echo "<p align='left'>Krótki opis: $description</p>";
 		$matters=$course_info['matters'];		
 		echo "<p align='left'>Omawiane zagadnienia: $matters</p>";
-		$for_whom=	$course_info['for_whom'];	 
+		$for_whom=$course_info['for_whom'];	 
 		echo "<p align='left'>Dla kogo: $for_whom</p>";
 		$results=$course_info['results'];
 		echo "<p align='left'>Co będziesz umiał po ukończeniu: $results</p>";
 		$language=$course_info['language'];
 		echo "<p align ='left'>Język: $language</p>";
-		$more_info=	$course_info['additional_info'];
+		$more_info=$course_info['additional_info'];
 		echo "<p align='left'>Informacje o wydarzeniu: $more_info</p>"
 
 	?>
