@@ -34,7 +34,7 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<title>Ideas4Learning</title>
-	<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>	
+	<script src="ckeditor5-build-classic/ckeditor.js"></script>
 </head>
 
 <body>
