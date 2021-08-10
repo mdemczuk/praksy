@@ -34,41 +34,29 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<title>Ideas4Learning</title>
-
-	
+	<script src="https://cdn.ckeditor.com/ckeditor5/29.1.0/classic/ckeditor.js"></script>	
 </head>
 
 <body>
+	
 	<h2>Course content:</h2>
 
 	<?php
-	#	echo "<p align = left>".$content."</p>";
-	#	echo '<p><a href="index.php">Home page</a> <a href="logout.php">Log out</a></p>';
+		echo "<p align = left>".$content."</p>";
+		echo '<p><a href="index.php">Home page</a> <a href="logout.php">Log out</a></p>';
 	?>
-
-	<div>
-		<form method="post">
-			<textarea name="my_editor" id="my_editor" cols="30" rows="10">
-				
-			</textarea>
-			<input type="submit" name="submit" value="Submit">
-		</form>
-	</div>
+	<br /><br />
 	
-
-	<script src="CKEditor/build/ckeditor.js"></script>
+	<div id="editor">
+		<p>This is some sample content.</p>
+	</div>
 
 	<script>
-		ClassicEditor
-    		.create(document.querySelector('#editor'))
-    		.then(editor => {
-        		console.log( editor );
-    		})
-    		.catch(error => {
-        		console.error( error );
-    		});
-
-    	ClassicEditor.create(document.getElementById('my_editor'));
+    	ClassicEditor
+        	.create( document.querySelector( '#editor' ) )
+        	.catch( error => {
+        	    console.error( error );
+        	} );
 	</script>
 	
 
