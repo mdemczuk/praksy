@@ -24,6 +24,8 @@
 	Add course <br />
 	Delete course <br />
 	Change course info/content <br />
+	
+	<p><a href="index.php">Home page</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="logout.php">Log out</a></p>
 
 </body>
 
