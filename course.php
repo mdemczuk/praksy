@@ -2,10 +2,10 @@
 	session_start();
 	require_once "connect.php";
 
-	if((isset($_SESSION['loggedin'])) && ($_SESSION['loggedin']==true)){
+	/*if((isset($_SESSION['loggedin'])) && ($_SESSION['loggedin']==true)){
 		header('Location:coursecontent.php');
 		exit();
-	}
+	}*/
 
 	$connection = @new mysqli($host, $db_user, $db_pswd, $db_name);		# connecting to database
 
@@ -17,6 +17,11 @@
 		$_SESSION['courseid'] = $id;
 		if($id > $_SESSION['no_courses'] or $id < 1) {					# checking what was passed in $_GET['courseid']
 			header("Location: index.php");
+			exit();
+		}
+
+		if((isset($_SESSION["loggedin$id"])) && ($_SESSION["loggedin$id"]==true)){		# checking if the person is already logged in for this course
+			header("Location:coursecontent.php?courseid=$id");
 			exit();
 		}
 
@@ -53,35 +58,23 @@
 		echo "<p align='left'>Krótki opis: $description</p>";
 		$matters=$course_info['matters'];		
 		echo "<p align='left'>Omawiane zagadnienia: $matters</p>";
-		$for_whom=$course_info['for_whom'];	 
+		$for_whom=	$course_info['for_whom'];	 
 		echo "<p align='left'>Dla kogo: $for_whom</p>";
 		$results=$course_info['results'];
 		echo "<p align='left'>Co będziesz umiał po ukończeniu: $results</p>";
 		$language=$course_info['language'];
 		echo "<p align ='left'>Język: $language</p>";
-		$more_info=$course_info['additional_info'];
+		$more_info=	$course_info['additional_info'];
 		echo "<p align='left'>Informacje o wydarzeniu: $more_info</p>"
 
 	?>
 
 	<p><a href="index.php">Home page</a></p>
 	
-	<h3 align="left">Login for this course</h3>
-	<form action="login.php" method="post">
-		E-mail:<br/><input type="text" name="email" /><br/>
-		Course password:<br/><input type="password" name="pswd" /><br/>
-		<br/><input type="submit" value="Log in" />
-	</form>
+	<center><a href="loginpanel.php">Log in for this course</a> <a href="registerpanel.php">Register for this course</a></center>
+	
 
-	<?php
-	# if variable $_SESSION['error'] exists in this session, the warning will be shown below the login form
-	if(isset($_SESSION['error'])) {
-		echo $_SESSION['error'];
-		unset($_SESSION['error']);
-	}
-	?>
-
-	<!making registration form>
+	<!--making registration form
 	<p><h3 align="left">Register for this course:</h3></p>  
 	<form action="buy.php" method="post">
 		Name:
@@ -116,7 +109,7 @@
 		<label for="male">male</label>
 		<br/><br/>
 	 	<input type="submit" value="Submit form">
-	</form>
+	</form>			-->
 
 </body>
 </html>
