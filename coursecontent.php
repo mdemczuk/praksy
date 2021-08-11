@@ -2,8 +2,9 @@
 
 	session_start();
 	
-	if(!isset($_SESSION['loggedin'])) {
-		header('Location:course.php');
+	$id = $_SESSION['courseid'];
+	if(!isset($_SESSION["loggedin$id"])) {					# checking if the person is already logged in for this course
+		header("Location:course.php?courseid=$id");
 		exit();
 	}
 
@@ -20,7 +21,7 @@
 		$sql = "SELECT * FROM courses WHERE id=$id";
 		if($result = @$connection->query($sql)){
 			$course_info = $result->fetch_assoc();
-			$content = $course_info['content'];
+			$content = $course_info['title'];
 		}
 
 		$connection->close();
