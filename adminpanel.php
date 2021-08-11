@@ -22,7 +22,7 @@
 	<h2>Administration panel</h2>
 
 	Add course <br />
-	Delete course <br />
+	<a href="delcourse.php">Delete course</a> <br />
 	Change course info/content <br />
 	
 	<p><a href="index.php">Home page</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="logout.php">Log out</a></p>
