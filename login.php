@@ -26,7 +26,7 @@
 		if($result = @$connection->query((sprintf("SELECT * FROM access WHERE course_id=$id AND user_id=(SELECT id FROM users WHERE email='%s') AND course_pswd='%s'", mysqli_real_escape_string($connection, $login), mysqli_real_escape_string($connection, $pswd))))) {
 			$numof_users = $result->num_rows;
 			if($numof_users>0) {
-				$_SESSION['loggedin'] = true;
+				$_SESSION["loggedin$id"] = true;
 				$row = $result->fetch_assoc(); # creates an associative array which stores variables from $result not under indexes but under column names of the table
 
 				$_SESSION['userid'] = $row['user_id'];
@@ -35,19 +35,16 @@
 				$result->free();
 
 				# redirecting to the course content
-				header('Location: coursecontent.php');
+				header("Location: coursecontent.php?courseid=$id");
 			}
 			else {
-
 				$_SESSION['error']='<span style="color:red">Incorrect e-mail or password.</span>';
-				header("Location:course.php?courseid=$id");
+				header("Location:loginpanel.php");
 			}
 		}
 
 		# closing the established connection
 		$connection->close();
 	}
-	
-
 
 ?>
