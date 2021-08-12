@@ -28,17 +28,15 @@
 			if($numof_users>0) {
 				$_SESSION["loggedin$id"] = true;
 				$row = $result->fetch_assoc(); # creates an associative array which stores variables from $result not under indexes but under column names of the table
-
-				$_SESSION['userid'] = $row['user_id'];
-
-				unset($_SESSION['error']);
+				$_SESSION["accessid$id"] = $row['id'];
+				unset($_SESSION['login_error']);
 				$result->free();
 
 				# redirecting to the course content
 				header("Location: coursecontent.php?courseid=$id");
 			}
 			else {
-				$_SESSION['error']='<span style="color:red">Incorrect e-mail or password.</span>';
+				$_SESSION['login_error']='<span style="color:red">Incorrect e-mail or password.</span>';
 				header("Location:loginpanel.php");
 			}
 		}
