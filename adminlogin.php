@@ -23,14 +23,14 @@
 				$row = $result->fetch_assoc(); # creates an associative array which stores variables from $result not under indexes but under column names of the table
 				$_SESSION['admin'] = true;
 
-				unset($_SESSION['error']);
+				unset($_SESSION['err_admin_login']);
 				$result->free();
 
 				# redirecting to the course content
 				header('Location: adminpanel.php');
 			}
 			else {
-				$_SESSION['error']='<span style="color:red">'."You don't have administrator's permissions or you typed in incorrect e-mail or password.".'</span>';
+				$_SESSION['err_admin_login']='<span style="color:red">'."You don't have administrator's permissions or you typed in incorrect e-mail or password.".'</span>';
 				header("Location: admin.php");
 			}
 		}
