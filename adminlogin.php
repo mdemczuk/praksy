@@ -20,10 +20,7 @@
 		if($result = @$connection->query((sprintf("SELECT * FROM access WHERE user_id=(SELECT id FROM users WHERE email='%s' AND permissions='admin') AND course_pswd='%s'", mysqli_real_escape_string($connection, $login), mysqli_real_escape_string($connection, $pswd))))) {
 			$numof_users = $result->num_rows;
 			if($numof_users>0) {
-				$_SESSION['loggedin'] = true;
 				$row = $result->fetch_assoc(); # creates an associative array which stores variables from $result not under indexes but under column names of the table
-
-				$_SESSION['userid'] = $row['user_id'];
 				$_SESSION['admin'] = true;
 
 				unset($_SESSION['error']);
