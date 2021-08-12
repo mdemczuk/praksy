@@ -10,7 +10,7 @@
 
 	if(isset($_SESSION['message'])){
 		$message = $_SESSION['message'];
-		echo "$message";
+		echo "$message <br />";
 		unset($_SESSION['message']);
 	}
 
@@ -41,16 +41,28 @@
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<title>Ideas4Learning</title>
-											<!-- tutaj jest moja próba zrobienia w css tego napisu do zmiany hasła na górze po prawej stronie ale coś mi nie wyszło więc jakbyście wiedzieli jak to zrobić to byłoby super XD -->
+	
 	<style>
-		#change-password {
-			text-align:  center;
+		#page-title {
+			float: left;
+		}
+		#options {
+			float: right;
+			text-align:  right;
+			padding: 20px;
 		}
 	</style>
+	
 </head>
 
 <body>
-	<h2>Course content:</h2><div class="change-password"><a href="passchange.php">Change password</a></div>
+	<div id="page-title">
+		<h2>Course content:</h2>
+	</div>
+	<div id="options">
+		<a href="passchange.php">Change password</a>
+	</div>
+	<div style="clear: both;"></div>
 
 	<?php
 		echo "<p align = left>".$content."</p>";
