@@ -1,15 +1,8 @@
 <?php
 	session_start();
-	$id = $_SESSION['courseid'];
 
 	if((!isset($_POST['email'])) || (!isset($_POST['pswd']))) {
 		header('Location:index.php');
-		exit();
-	}
-
-	# redirect to course content if admin is logged in
-	if(isset($_SESSION['admin']) && ($_SESSION['admin']==true)) {
-		header('Location: coursecontent.php?courseid=$id');
 		exit();
 	}
 
@@ -20,6 +13,7 @@
 		echo "Error: ".$connection->connect_errno;
 	}
 	else {
+		$id = $_SESSION['courseid'];
 		if($id > $_SESSION['no_courses'] or $id < 1) {
 			header("Location: index.php");
 			exit();
