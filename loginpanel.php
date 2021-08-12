@@ -27,9 +27,9 @@
 
 	<?php
 		# if variable $_SESSION['error'] exists in this session, the warning will be shown below the login form
-		if(isset($_SESSION['error'])) {
-			echo $_SESSION['error'];
-			unset($_SESSION['error']);
+		if(isset($_SESSION['login_error'])) {
+			echo $_SESSION['login_error'];
+			unset($_SESSION['login_error']);
 		}
 	?>
 
