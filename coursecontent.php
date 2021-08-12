@@ -1,6 +1,14 @@
 <?php
 
 	session_start();
+
+	# checking if admin is logged in
+	if(isset($_SESSION['admin']) && ($_SESSION['admin']==true)) {
+		$admin_logged = true;
+	}
+	else {
+		$admin_logged = false;
+	}
 	
 	$id = $_SESSION['courseid'];
 	if(!isset($_SESSION["loggedin$id"])) {					# checking if the person is already logged in for this course
