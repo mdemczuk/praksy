@@ -40,9 +40,9 @@
 
 	<?php
 		# if variable $_SESSION['error'] exists in this session, the warning will be shown below the login form
-		if(isset($_SESSION['error'])) {
-			echo $_SESSION['error'];
-			unset($_SESSION['error']);
+		if(isset($_SESSION['err_admin_login'])) {
+			echo $_SESSION['err_admin_login'];
+			unset($_SESSION['err_admin_login']);
 		}
 	?>
 
