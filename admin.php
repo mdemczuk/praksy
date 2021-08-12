@@ -2,17 +2,12 @@
 
 	session_start();
 	
-	# if someone is already logged in
-	if((isset($_SESSION['loggedin'])) && ($_SESSION['loggedin']==true)) {
-		if((isset($_SESSION['admin'])) && ($_SESSION['admin']==true)) {
-			echo "You are already logged in.<br />";
-			echo '<p><a href="adminpanel.php">Administration panel</a>
-				<a href="index.php">Home page</a>
-				<a href="logout.php">Log out</a></p>';
-		}
-		else {
-			header("Location: index.php");
-		}
+	#if admin is logged in
+	if(isset($_SESSION['admin']) && ($_SESSION['admin']==true)) {
+		echo "You are already logged in.<br />";
+		echo '<p><a href="adminpanel.php">Administration panel</a>
+			<a href="index.php">Home page</a>
+			<a href="logout.php">Log out</a></p>';
 		exit();
 	}
 
