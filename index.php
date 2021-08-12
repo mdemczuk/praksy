@@ -2,6 +2,14 @@
 
 	session_start();
 
+	# checking if admin is logged in
+	if(isset($_SESSION['admin']) && ($_SESSION['admin']==true)) {
+		$admin_logged = true;
+	}
+	else {
+		$admin_logged = false;
+	}
+
 	require_once "connect.php";
 
 	$connection = @new mysqli($host, $db_user, $db_pswd, $db_name);		# connect do db
