@@ -52,25 +52,41 @@
 <body>
 	
 	<?php
-	# variable $course_info contains info of the chosen course
 
+		if($admin_logged) { ?>
+			<div style="float: right; padding-right: 20px;">
+				<form method="post">
+					<br/><input type="submit" value="Edit course info" name="edit_course_info" />
+				</form>
+			</div>
+			<div style="clear: both;"></div>
+		<?php
+		}
 
-		$Title=$course_info['title'];  #assignment value form specyfik $cours_info to variable so  printing info on website becomes easier
-    	echo"<h1 align='center'>Witaj na stronie poświęconej kursowi:</h1><br><p align='center'>$Title </p>"; 
+		if(isset($_POST['edit_course_info'])) {
+			$_SESSION['editcourseinfo'] = true;
+			header("Location: editcourseinfo.php?courseid=$id");
+			exit();
+		}
+		unset($_SESSION['editcourseinfo']);
+
+		# variable $course_info contains info of the chosen course
+		$Title=$course_info['title'];  #assignment value form specific $cours_info to variable so printing info on website becomes easier
+    		echo"<h1 align='center'>$Title</h1><br />"; 
 	 
 		$description=$course_info['general_description'];
-		echo "<p align='left'>Krótki opis: $description</p>";
+		echo "<p align='left'><b>General description:</b><br />$description</p>";
 		$matters=$course_info['matters'];		
-		echo "<p align='left'>Omawiane zagadnienia: $matters</p>";
+		echo "<p align='left'><b>Matters:</b><br />$matters</p>";
 		$for_whom=	$course_info['for_whom'];	 
-		echo "<p align='left'>Dla kogo: $for_whom</p>";
+		echo "<p align='left'><b>For whom:</b><br />$for_whom</p>";
 		$results=$course_info['results'];
-		echo "<p align='left'>Co będziesz umiał po ukończeniu: $results</p>";
+		echo "<p align='left'><b>Expected results after finishing this course:</b><br />$results</p>";
 		$language=$course_info['language'];
-		echo "<p align ='left'>Język: $language</p>";
+		echo "<p align ='left'><b>Language:</b><br />$language</p>";
 		$more_info=	$course_info['additional_info'];
-		echo "<p align='left'>Informacje o wydarzeniu: $more_info</p>"
-
+		echo "<p align='left'><b>Additional information:</b><br />$more_info</p>";
+		
 	?>
 
 	<p><a href="index.php">Home page</a></p>
