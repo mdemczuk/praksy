@@ -24,7 +24,12 @@
 
 	Add course <br />
 	<a href="delcourse.php">Delete course</a> <br />
-	Change course info/content <br />
+	<a href="edinfo.php">Change course info</a> <br />
+	Change course content <br />
+
+	<?php
+		unset($_SESSION['editcourseinfo']);
+	?>
 	
 	<p><a href="index.php">Home page</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="logout.php">Log out</a></p>
 
