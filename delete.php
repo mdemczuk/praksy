@@ -17,10 +17,12 @@
 	else {																# if the connection has been established
 		$id = $_GET['courseid'];										# getting id of the course that is going to be deleted
 
-		# deleting course and acces to this course
+		# deleting course, lessons and access to this course
 		$sql_access = "DELETE FROM access WHERE course_id = ".$id;
+		$sql_lessons = "DELETE FROM lessons WHERE courseid = ".$id;
 		$sql_course = "DELETE FROM courses WHERE id = ".$id;
 		@$connection->query($sql_access);
+		@$connection->query($sql_lessons);
 		@$connection->query($sql_course);
 
 		# finding course which has highest id
