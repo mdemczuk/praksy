@@ -3,7 +3,7 @@
 
 	$id = $_SESSION['courseid'];
 	if(((isset($_SESSION["loggedin$id"])) && ($_SESSION["loggedin$id"]==true)) || (isset($_SESSION['admin']) && ($_SESSION['admin']==true))){		# checking if the person is already logged in for this course
-		header('Location: coursecontent.php?courseid=$id');
+		header('Location: coursecontent.php');
 		exit();
 	}
 ?>
