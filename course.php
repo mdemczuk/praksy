@@ -15,6 +15,7 @@
 
 	if($connection->connect_errno!=0) {	
 		echo "Error: ".$connection->connect_errno;
+	
 	}
 	else {
 		$id = $_GET['courseid'];
@@ -37,7 +38,10 @@
 
 		$connection->close();
 	}
-
+$ID=$course_info['id'];
+$_SESSION['ID']=$ID;
+$title1=$course_info['title'];
+$_SESSION['title1']=$title1;
 ?>
 
 <!DOCTYPE HTML>
@@ -91,7 +95,7 @@
 
 	<p><a href="index.php">Home page</a></p>
 	
-	<center><a href="loginpanel.php">Log in for this course</a> <a href="registerpanel.php">Register for this course</a></center>
+	<center><a href="loginpanel.php">Log in for this course</a> <a href="register.php">Register for this course</a></center>
 
 </body>
 </html>
