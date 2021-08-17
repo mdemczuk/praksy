@@ -21,6 +21,9 @@
 		$edit_main_mode = false;
 	}
 	
+	if(isset($_GET['courseid'])) {
+		$_SESSION['courseid'] = $_GET['courseid'];
+	}
 	$id = $_SESSION['courseid'];
 	if(!isset($_SESSION["loggedin$id"]) && !$admin_logged) {				# checking if the person is already logged in for this course
 		header("Location:course.php?courseid=$id");
