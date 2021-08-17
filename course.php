@@ -70,9 +70,9 @@
 		}
 		unset($_SESSION['editcourseinfo']);
 
-		# variable $course_info contains info of the chosen course
-		$Title=$course_info['title'];  #assignment value form specific $cours_info to variable so printing info on website becomes easier
-    		echo"<h1 align='center'>$Title</h1><br />"; 
+		$title=$course_info['title'];  #assignment value form specific $cours_info to variable so printing info on website becomes easier
+    		$_SESSION['course_title'] = $title;
+    		echo"<h1 align='center'>$title</h1><br />"; 
 	 
 		$description=$course_info['general_description'];
 		echo "<p align='left'><b>General description:</b><br />$description</p>";
