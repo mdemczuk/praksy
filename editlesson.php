@@ -35,7 +35,7 @@
 
 			$result = mysqli_query($connection, $sql);
 			if($result) {
-				$_SESSION['edit_lesson_message'] = '<span style="color:green"><b>Succesfully changed lesson content!</b></span>';
+				$_SESSION['lesson_message'] = '<span style="color:green"><b>Succesfully changed lesson content!</b></span>';
 			}
 			else {
 				$_SESSION['edit_lesson_error'] = '<span style="color:red">'."Something went wrong, please try again.".'</span>';
@@ -59,7 +59,7 @@
 
 			$result = mysqli_query($connection, $sql);
 			if($result) {
-				$_SESSION['edit_lesson_message'] = '<span style="color:green"><b>Succesfully changed content of the main page!</b></span>';
+				$_SESSION['lesson_message'] = '<span style="color:green"><b>Succesfully changed content of the main page!</b></span>';
 			}
 			else {
 				$_SESSION['edit_lesson_error'] = '<span style="color:red">'."Something went wrong, please try again :(.".'</span>';
