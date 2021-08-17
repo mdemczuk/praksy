@@ -19,7 +19,7 @@
 
 		# deleting course, lessons and access to this course
 		$sql_access = "DELETE FROM access WHERE course_id = ".$id;
-		$sql_lessons = "DELETE FROM lessons WHERE courseid = ".$id;
+		$sql_lessons = "DELETE FROM lessons WHERE course_id = ".$id;
 		$sql_course = "DELETE FROM courses WHERE id = ".$id;
 		@$connection->query($sql_access);
 		@$connection->query($sql_lessons);
