@@ -22,7 +22,7 @@
 
 	<h2>Administration panel</h2>
 
-	Add course <br />
+	<a href="addcourse.php">Add course</a> <br />
 	<a href="delcourse.php">Delete course</a> <br />
 	<a href="edinfo.php">Change course info</a> <br />
 	<a href="editcontent.php">Change course content</a> <br />

@@ -14,11 +14,11 @@
 
 	$connection = @new mysqli($host, $db_user, $db_pswd, $db_name);		# connect do db
 
-	if($connection->connect_errno!=0) {					# if the connection hasn't been established
+	if($connection->connect_errno!=0) {									# if the connection hasn't been established
 		echo "Error: ".$connection->connect_errno;
 	}
-	else {									# if the connection has been established
-		$sql = "SELECT id, title, course_img FROM courses";		# sql query to find data of all of the courses
+	else {																# if the connection has been established
+		$sql = "SELECT id, title, course_img FROM courses";				# sql query to find data of all of the courses
 
 		if($result = @$connection->query($sql)) {
 			$_SESSION['no_courses'] = $result->num_rows;
@@ -28,11 +28,12 @@
 			$ids = array();
 			$images = array();
 			if($no_courses > 0) {
-				for($x = 0; $x < $no_courses; $x++) {		# fetch data from all rows
+				for($x = 0; $x < $no_courses; $x++) {					# fetch data from all rows
 					$course = $result->fetch_assoc();
 					array_push($titles, $course['title']);
 					array_push($ids, $course['id']);
 					array_push($images, $course['course_img']);
+					$_SESSION['last_course_id'] = $course['id'];
 				}
 			} 
 		}
@@ -55,14 +56,15 @@
 			text-align: center;
 		}
 		a {
-			text-decoration: none;			/* hyperlink is not underlined */
+			text-decoration: none;			/* link is not underlined */
 		}
-		a:visited {					/* visited hyperlink */
+		a:visited {							/* visited link */
 			color: #404040;
 		}
-		#course {					/* div named 'course' */
+		#course {							/* div named 'course' */
 			text-align: center;
 			text-decoration: none;
+			padding-bottom: 10px;
 		}
 		#course:hover {
 			color: white;
@@ -73,13 +75,25 @@
 </head>
 
 <body>
-	<h1>All courses:</h1>
 
 	<?php
+
+		if($admin_logged) { ?>
+			<div style="float: right; padding: 20px;">
+				<form action="addcourse.php" method="post">
+					<input type="submit" value="Add course" name="add_course" />
+				</form>
+			</div>
+			<div style="clear: both"></div>
+			<?php
+		}
+
+		echo "<h1>All courses:</h1>";
+
 		if($no_courses > 0) {
 				for($x = 0; $x < $no_courses; $x++) {
 					$bin=$titles[$x];
-					# display a block containing course title and course image; whole block is a hyperlink to another page
+					# display a block containing course title and course image; whole block is a link to another page
 					echo "<a href='course.php?courseid={$ids[$x]}'>
 							<div id='course'>".
 							'<img src="data:image;base64,'.base64_encode($images[$x]).'" alt="Image">'.

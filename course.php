@@ -1,9 +1,15 @@
 <?php
 	session_start();
+	$id = $_GET['courseid'];
 
 	# checking if admin is logged in
 	if(isset($_SESSION['admin']) && ($_SESSION['admin']==true)) {
 		$admin_logged = true;
+		if(isset($_SESSION['edit_message'])){
+			$edit_message = $_SESSION['edit_message'];
+			echo "$edit_message <br />";
+			unset($_SESSION['edit_message']);
+		}
 	}
 	else {
 		$admin_logged = false;
@@ -15,18 +21,16 @@
 
 	if($connection->connect_errno!=0) {	
 		echo "Error: ".$connection->connect_errno;
-	
 	}
 	else {
-		$id = $_GET['courseid'];
 		$_SESSION['courseid'] = $id;
-		if($id > $_SESSION['no_courses'] or $id < 1) {					# checking what was passed in $_GET['courseid']
+		if($id > $_SESSION['last_course_id'] or $id < 1) {					# checking what was passed in $_GET['courseid']
 			header("Location: index.php");
 			exit();
 		}
 
 		if((isset($_SESSION["loggedin$id"])) && ($_SESSION["loggedin$id"]==true) && !$admin_logged){		# checking if the person is already logged in for this course
-			header("Location: coursecontent.php?courseid=$id");
+			header("Location: coursecontent.php");
 			exit();
 		}
 
@@ -38,10 +42,11 @@
 
 		$connection->close();
 	}
-$ID=$course_info['id'];
-$_SESSION['ID']=$ID;
-$title1=$course_info['title'];
-$_SESSION['title1']=$title1;
+
+	$ID=$course_info['id'];
+	$_SESSION['ID']=$ID;
+	$title1=$course_info['title'];
+	$_SESSION['title1']=$title1;
 ?>
 
 <!DOCTYPE HTML>
@@ -50,6 +55,16 @@ $_SESSION['title1']=$title1;
 	<meta charset="utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 	<title>Ideas4learning</title>
+	<style>
+		#container {
+			padding: 10px;
+		}
+		.course_title {
+			text-align: center;
+			font-size: 32;
+			padding: 10px;
+		}
+	</style>
 
 </head>
 
@@ -74,9 +89,10 @@ $_SESSION['title1']=$title1;
 		}
 		unset($_SESSION['editcourseinfo']);
 
+		# variable $course_info contains info of the chosen course
 		$title=$course_info['title'];  #assignment value form specific $cours_info to variable so printing info on website becomes easier
-    		$_SESSION['course_title'] = $title;
-    		echo"<h1 align='center'>$title</h1><br />"; 
+    	$_SESSION['course_title'] = $title;
+    	echo"<h1 align='center'>$title</h1><br />"; 
 	 
 		$description=$course_info['general_description'];
 		echo "<p align='left'><b>General description:</b><br />$description</p>";
