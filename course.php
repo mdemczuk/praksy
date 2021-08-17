@@ -25,8 +25,8 @@
 			exit();
 		}
 
-		if((isset($_SESSION["loggedin$id"])) && ($_SESSION["loggedin$id"]==true)){		# checking if the person is already logged in for this course
-			header("Location:coursecontent.php?courseid=$id");
+		if((isset($_SESSION["loggedin$id"])) && ($_SESSION["loggedin$id"]==true) && !$admin_logged){		# checking if the person is already logged in for this course
+			header("Location: coursecontent.php?courseid=$id");
 			exit();
 		}
 
