@@ -106,7 +106,6 @@
 				$language = $_POST['language'];
 				$main = $general_description;
 
-				# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 	ENCRYPT $main
 				include_once('functions.php');
 				# query to insert course's information to db
 				$sql_insert = "INSERT INTO courses (title, course_img, general_description, matters, for_whom, results, additional_info, language, main) VALUES ('".$title."', '".$image."', '".$general_description."', '".$matters."', '".$for_whom."', '".$results."', '".$additional_info."', '".$language."', AES_ENCRYPT('".$main."', '".$key."'))";
