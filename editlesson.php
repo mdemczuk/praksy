@@ -30,8 +30,9 @@
 			$editor_data = $_POST['content'];
 			$lesson_num = $_SESSION['lesson_num'];
 
+			include_once('functions.php');
 			# query to update lesson's content
-			$sql = "UPDATE lessons SET name = '".$lesson_name."', content = '".$editor_data."' WHERE id = ".$lesson_id;
+			$sql = "UPDATE lessons SET name = '".$lesson_name."', content = AES_ENCRYPT('".$editor_data.", '".$key."') WHERE id = ".$lesson_id;
 
 			$result = mysqli_query($connection, $sql);
 			if($result) {

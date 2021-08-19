@@ -34,6 +34,12 @@
 			exit();
 		}
 
+		if(isset($_SESSION['register_message'])){
+			$register_message = $_SESSION['register_message'];
+			echo $register_message;
+			unset($_SESSION['register_message']);
+		}
+
 		$sql = "SELECT * FROM courses WHERE id = ".$id;					# fetching data of the course with proper id
 
 		if($result = @$connection->query($sql)) {

@@ -14,25 +14,41 @@
 	else {
 		$login = $_POST['email'];
 		$pswd = $_POST['pswd'];
-		$login = htmlentities($login, ENT_QUOTES, "UTF-8");
-		$pswd = htmlentities($pswd, ENT_QUOTES, "UTF-8");
+		#$login = htmlentities($login, ENT_QUOTES, "UTF-8");
 
-		if($result = @$connection->query((sprintf("SELECT * FROM access WHERE user_id=(SELECT id FROM users WHERE email='%s' AND permissions='admin') AND course_pswd='%s'", mysqli_real_escape_string($connection, $login), mysqli_real_escape_string($connection, $pswd))))) {
+		include_once('functions.php');
+
+		if($result = @$connection->query("SELECT * FROM users WHERE permissions='admin'")) {
 			$numof_users = $result->num_rows;
 			if($numof_users>0) {
-				$row = $result->fetch_assoc(); # creates an associative array which stores variables from $result not under indexes but under column names of the table
-				$_SESSION['admin'] = true;
+				$row = $result->fetch_assoc();
+				$admin_email = $row['email'];
+				$dec_admin_email = decryptthis($admin_email, $key);
+				if(strcmp($login, $dec_admin_email) == 0){
+					$admin_id = $row['id'];
+					$sql = "SELECT * FROM access WHERE user_id = $admin_id";
+					if($result2 = @$connection->query($sql)){
+						$row2 = $result2->fetch_assoc();
+						$admin_pass =  $row2['course_pswd'];
+						if(password_verify($pswd, $admin_pass)){
+							$_SESSION['admin'] = true;
+							unset($_SESSION['err_admin_login']);
 
-				unset($_SESSION['err_admin_login']);
-				$result->free();
-
-				# redirecting to the course content
-				header('Location: adminpanel.php');
+							# redirecting to the course content
+							header('Location: adminpanel.php');
+						}
+						else {
+							$_SESSION['err_admin_login']='<span style="color:red">'."You don't have administrator's permissions or you typed in incorrect email or password.".'</span>';
+							header("Location: admin.php");
+						}
+					}
+				}
+				else {
+					$_SESSION['err_admin_login']='<span style="color:red">'."You don't have administrator's permissions or you typed in incorrect e-mail or password.".'</span>';
+					header("Location: admin.php");
+				}
 			}
-			else {
-				$_SESSION['err_admin_login']='<span style="color:red">'."You don't have administrator's permissions or you typed in incorrect e-mail or password.".'</span>';
-				header("Location: admin.php");
-			}
+			
 		}
 
 		# closing the established connection

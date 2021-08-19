@@ -30,6 +30,12 @@
 		exit();
 	}
 
+	if(isset($_SESSION['password_change_message'])){
+		$message = $_SESSION['password_change_message'];
+		echo "$message <br/>";
+		unset($_SESSION['password_change_message']);
+	}
+
 	require_once "connect.php";
 
 	$connection = @new mysqli($host, $db_user, $db_pswd, $db_name);
@@ -38,7 +44,9 @@
 	}
 	else {
 		$id = $_SESSION['courseid'];
-		$sql = "SELECT * FROM lessons WHERE course_id=$id";
+		# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DECRYPT LESSON CONTENT
+		include_once('functions.php');
+		$sql = "SELECT id, course_id, name, lesson_number, AES_DECRYPT(content, '$key') AS content FROM lessons WHERE course_id=$id";
 
 		if($result = @$connection->query($sql)) {
 			$num_lessons = $result->num_rows;
@@ -58,7 +66,9 @@
 			} 
 		}
 
-		$sql_main = "SELECT main FROM courses WHERE id=$id";
+		# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DECRYPT MAIN (blob)
+
+		$sql_main = "SELECT AES_DECRYPT(main, '$key') AS main FROM courses WHERE id=$id";
 
 		if($result_main = @$connection->query($sql_main)) {
 			if($result_main->num_rows > 0) {
