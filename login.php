@@ -1,10 +1,4 @@
 <?php
-
-	# 1. Wyjąć z tabeli "access" id wszystkich użytkowników, którzy są zarejestrowani na dany kurs. Zapisać w tablicy pomocniczej.
-	# 2. W tabeli "users" w while'u po kolei sprawdzać id z tablicy pomocniczej i odkodować adres e-mail przypisany do danego id, a następnie porównać go z adresem e-mail, który został wpisany przy logowaniu.
-	# 3. Gdy znajdzie się match, zapisać id użytkownika do zmiennej pomocniczej.
-	# 4. Sprawdzić poprawność hasła jak wcześniej.
-
 	session_start();
 	if((!isset($_POST['email'])) || (!isset($_POST['pswd']))) {
 		header('Location:index.php');
