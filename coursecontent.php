@@ -44,7 +44,6 @@
 	}
 	else {
 		$id = $_SESSION['courseid'];
-		# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DECRYPT LESSON CONTENT
 		include_once('functions.php');
 		$sql = "SELECT id, course_id, name, lesson_number, AES_DECRYPT(content, '$key') AS content FROM lessons WHERE course_id=$id";
 
@@ -65,8 +64,6 @@
 				}
 			} 
 		}
-
-		# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DECRYPT MAIN (blob)
 
 		$sql_main = "SELECT AES_DECRYPT(main, '$key') AS main FROM courses WHERE id=$id";
 
