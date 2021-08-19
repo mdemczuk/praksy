@@ -43,8 +43,6 @@
 			$new_lesson_num = $last_lesson_num + 1;
 
 			# query to add new lesson
-
-			# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ENCRYPT $editor_data
 			
 			$sql = "INSERT INTO lessons (course_id, name, lesson_number, content) VALUES (".$id.", '".$lesson_name."', ".$new_lesson_num.", AES_ENCRYPT('".$editor_data.", '".$key."'))";
 
