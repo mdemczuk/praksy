@@ -15,6 +15,7 @@
 	else {
 		$admin_logged = false;
 		header("Location: course.php?courseid=$id");
+		exit();
 	}
 
 	require_once "connect.php";
@@ -50,6 +51,21 @@
 	<script src="ckeditor/ckeditor.js"></script>
 	<script src="ckeditor/samples/sample.js"></script>
 
+	<script type="text/javascript">
+		function triggerClick(e) {
+		  document.querySelector('#course_image').click();
+		}
+		function displayImage(e) {
+		  if (e.files[0]) {
+		    var reader = new FileReader();
+		    reader.onload = function(e){
+		      document.querySelector('#display').setAttribute('src', e.target.result);
+		    }
+		    reader.readAsDataURL(e.files[0]);
+		  }
+		}
+	</script>
+
 	<style>
 		#container {
 			padding: 10px;
@@ -72,11 +88,22 @@
 
 		if(isset($_SESSION['editcourseinfo'])) { ?>
 			<div id="container">
-				<form action="editinfo.php" method="post">
+				<form action="editinfo.php" method="post" runat="server" enctype="multipart/form-data">
 					<div class="course_title">
 						<?php
 							$title = $course_info['title'];
 							echo "<textarea type='text' name='title' cols=100 rows=2 required>".$title."</textarea>";
+						?>
+					</div>
+					<div class="info_el">
+						<input type="file" name='course_img' onChange="displayImage(this)" id='course_img'></input>
+						<?php
+							$img = $course_info['course_img'];
+							echo '<img src="data:image;base64,'.base64_encode($img).'" onClick="triggerClick()" id="display">';
+							if(isset($_SESSION['err_img'])) {
+								echo "<br />".$_SESSION['err_img'];
+								unset($_SESSION['err_img']);
+							}
 						?>
 					</div>
 					<div class="info_el">
