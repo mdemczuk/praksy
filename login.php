@@ -67,7 +67,19 @@
 			$numof_users = $result->num_rows;
 			if($numof_users>0) {
 				$row = $result->fetch_assoc();
-				if(password_verify($pswd, $row['course_pswd'])){
+				$server_time = new DateTime();
+				$end_access = DateTime::createFromFormat('Y-m-d H:i:s', $row['access_till']);
+				$difference = $server_time->diff($end_access);
+				if($server_time < $end_access) {
+					# if user still has access
+					$access = true;
+				}
+				else {
+					# user doesn't have access anymore
+					$access = false;
+				}
+				if(password_verify($pswd, $row['course_pswd']) && $access){
+					# correct password and user still has access
 					$_SESSION["loggedin$id"] = true;
 					$_SESSION["accessid$id"] = $row['id'];
 					$_SESSION['userid'] = $row['user_id'];
@@ -76,6 +88,14 @@
 
 					# redirecting to the course content
 					header("Location: coursecontent.php?courseid=$id");
+				}
+				elseif(password_verify($pswd, $row['course_pswd']) && !$access) {
+					# correct password but user doesn't have access to the course anymore
+					$_SESSION['login_error']='<span style="color:red">You do not have access to this course anymore. If you want to continue this course, please register once more for 30 days of access.</span>';
+					# deleting record from table access
+					$sql_access = "DELETE FROM access WHERE course_id = $id AND user_id=$found_user_id";
+					@$connection->query($sql_access);
+					header("Location:loginpanel.php");
 				}
 				else {
 					$_SESSION['login_error']='<span style="color:red">Incorrect e-mail or password.</span>';

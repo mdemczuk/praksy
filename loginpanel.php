@@ -24,6 +24,7 @@
 		Course password:<br/><input type="password" name="pswd" /><br/>
 		<br/><input type="submit" value="Log in" />
 	</form>
+	<br />
 
 	<?php
 		# if variable $_SESSION['error'] exists in this session, the warning will be shown below the login form
@@ -32,6 +33,8 @@
 			unset($_SESSION['login_error']);
 		}
 	?>
+
+	<p><a href="index.php">Home page</a></p>
 
 </body>
 </html>
