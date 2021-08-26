@@ -1,6 +1,7 @@
 <?php
 	session_start();
 	$id = $_SESSION['courseid'];
+	include_once ('functions.php');
 
 	# checking if admin is logged in
 	if(isset($_SESSION['admin']) && ($_SESSION['admin']==true)) {
@@ -43,7 +44,8 @@
 			$new_lesson_num = $last_lesson_num + 1;
 
 			# query to add new lesson
-			$sql = "INSERT INTO lessons (course_id, name, lesson_number, content) VALUES (".$id.", '".$lesson_name."', ".$new_lesson_num.", '".$editor_data."')";
+			
+			$sql = "INSERT INTO lessons (course_id, name, lesson_number, content) VALUES (".$id.", '".$lesson_name."', ".$new_lesson_num.", AES_ENCRYPT('".$editor_data."', '".$key."'))";
 
 			$result = mysqli_query($connection, $sql);
 			if($result) {
@@ -53,11 +55,11 @@
 			else {
 				$_SESSION['add_lesson_error'] = '<span style="color:red">'."Something went wrong, please try again.".'</span>';
 			}
-			
+
 		}
 	}
 
-	
+
 ?>
 
 <!DOCTYPE HTML>
@@ -71,7 +73,7 @@
 </head>
 
 <body>
-	
+
 	<form method="post">
 		<div style="text-align: center;">
 			<textarea type='text' name='lesson_name' cols=100 rows=2 required></textarea>
@@ -213,4 +215,4 @@
 	<p><a href="index.php">Home page</a></p>
 
 </body>
-</html>
+</html> 

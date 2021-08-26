@@ -106,8 +106,9 @@
 				$language = $_POST['language'];
 				$main = $general_description;
 
+				include_once('functions.php');
 				# query to insert course's information to db
-				$sql_insert = "INSERT INTO courses (title, course_img, general_description, matters, for_whom, results, additional_info, language, main) VALUES ('".$title."', '".$image."', '".$general_description."', '".$matters."', '".$for_whom."', '".$results."', '".$additional_info."', '".$language."', '".$main."')";
+				$sql_insert = "INSERT INTO courses (title, course_img, general_description, matters, for_whom, results, additional_info, language, main) VALUES ('".$title."', '".$image."', '".$general_description."', '".$matters."', '".$for_whom."', '".$results."', '".$additional_info."', '".$language."', AES_ENCRYPT('".$main."', '".$key."'))";
 				$_SESSION['no_courses'] = $_SESSION['no_courses'] + 1;
 
 				$result = mysqli_query($connection, $sql_insert);
