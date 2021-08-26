@@ -1,2 +1,2 @@
-# praksy
-[Jula] Pliki prowizorycznie wyświetlają dostępne kursy (te znalezione w bazie danych), pod każdym kursem możliwe jest przejście do informacji o nim (plik course.php). Ten plik może uzupełnić Jasiu, tak może być mu wygodniej i od razu będziemy mieli zintegrowane nasze części.
+# Prototyp platformy e-learningowej
+Projekt został wykonany w ramach praktyk studenckich w firmie ideas4biology. Jest to prototyp platformy e-learningowej, z wykorzystaniem której można wziąć udział w kursach online z danego zagadnienia z dziedziny bioinformatyki.
