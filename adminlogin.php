@@ -26,21 +26,18 @@
 				$dec_admin_email = decryptthis($admin_email, $key);
 				if(strcmp($login, $dec_admin_email) == 0){
 					$admin_id = $row['id'];
-					$sql = "SELECT * FROM access WHERE user_id = $admin_id";
-					if($result2 = @$connection->query($sql)){
-						$row2 = $result2->fetch_assoc();
-						$admin_pass =  $row2['course_pswd'];
-						if(password_verify($pswd, $admin_pass)){
-							$_SESSION['admin'] = true;
-							unset($_SESSION['err_admin_login']);
+					#$sql = "SELECT * FROM access WHERE user_id = $admin_id";
+					$admin_pass =  $row['admin_pass'];
+					if(password_verify($pswd, $admin_pass)){
+						$_SESSION['admin'] = true;
+						unset($_SESSION['err_admin_login']);
 
-							# redirecting to the course content
-							header('Location: adminpanel.php');
-						}
-						else {
-							$_SESSION['err_admin_login']='<span style="color:red">'."You don't have administrator's permissions or you typed in incorrect email or password.".'</span>';
-							header("Location: admin.php");
-						}
+						# redirecting to the course content
+						header('Location: adminpanel.php');
+					}
+					else {
+						$_SESSION['err_admin_login']='<span style="color:red">'."You don't have administrator's permissions or you typed in incorrect email or password.".'</span>';
+						header("Location: admin.php");
 					}
 				}
 				else {
