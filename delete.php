@@ -29,7 +29,12 @@
 		$sql_maxid = "SELECT id FROM courses ORDER BY id DESC LIMIT 1";
 		$result = @$connection->query($sql_maxid);
 		$r = $result->fetch_assoc();
-		$_SESSION['last_course_id'] = $r['id'];
+		if($result->num_rows > 0) {
+			$_SESSION['last_course_id'] = $r['id'];
+		}
+		else {
+			$_SESSION['last_course_id'] = 0;
+		}
 
 		$connection->close();											# closing connection to db
 	}
