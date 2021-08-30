@@ -9,10 +9,16 @@
 
 	session_start();
 
-	$id = $_SESSION['courseid'];
-	if((!isset($_SESSION["loggedin$id"])) && ($_SESSION["loggedin$id"]!=true)){		# checking if the person is logged in for this course
-		header("Location: course.php?courseid=$id");
-		exit();
+	if(isset($_SESSION['admin']) && ($_SESSION['admin']==true)) {
+		$admin_logged = true;
+	}
+	else {
+		$admin_logged = false;
+		$id = $_SESSION['courseid'];
+		if((!isset($_SESSION["loggedin$id"])) && ($_SESSION["loggedin$id"]!=true)){		# checking if the person is logged in for this course
+			header("Location: course.php?courseid=$id");
+			exit();
+		}
 	}
 
 	require_once "connect.php";
@@ -22,57 +28,112 @@
 	}
 
 	else {
-		$id = $_SESSION['courseid'];
-		$access_id = $_SESSION["accessid$id"];
-		$user_id = $_SESSION['userid'];
-		$validation = true;
-		
-		$cpswd = $_POST['cpswd'];					# current password
-		$newpswd = $_POST['newpswd'];				# new password
-		$cnewpswd = $_POST['cnewpswd'];				# confirmed new password
+		if($admin_logged) {
+			# admin is changing password
+			$user_id = $_SESSION['userid'];
+			$validation = true;
 
-		if($result = @$connection->query(sprintf("SELECT * FROM access WHERE id=$access_id AND user_id=$user_id"))) {
-			$num = $result->num_rows;
-			if($num>0) {
-				$row = $result->fetch_assoc();
-				if(password_verify($cpswd, $row['course_pswd'])){
-					$result->free();
-					
-					if((strlen($newpswd)<2 || strlen($newpswd)>20) || (strlen($cnewpswd)<2 || strlen($cnewpswd)>20)){
-						$validation = false;
-						$_SESSION['pc_error2'] = "The new password must consist of 8 to 20 characters.";
-					}
+			$cpswd = $_POST['cpswd'];					# current password
+			$newpswd = $_POST['newpswd'];				# new password
+			$cnewpswd = $_POST['cnewpswd'];				# confirmed new password
 
-					if($validation==true) {
-						if(strcmp($newpswd, $cnewpswd) != 0){
-							$_SESSION['pc_error3'] = "The new passwords do not match.";
-							header("Location:passchange.php");
+			if($result = @$connection->query(sprintf("SELECT * FROM users WHERE id=$user_id"))) {
+				$num = $result->num_rows;
+				if($num>0) {
+					$row = $result->fetch_assoc();
+					if(password_verify($cpswd, $row['admin_pass'])){
+						$result->free();
+						
+						if((strlen($newpswd)<2 || strlen($newpswd)>20) || (strlen($cnewpswd)<2 || strlen($cnewpswd)>20)){
+							$validation = false;
+							$_SESSION['pc_error2'] = "The new password must consist of 8 to 20 characters.";
+						}
+
+						if($validation==true) {
+							if(strcmp($newpswd, $cnewpswd) != 0){
+								$_SESSION['pc_error3'] = "The new passwords do not match.";
+								header("Location:passchange.php");
+							}
+
+							else {
+								$hash_newpswd = password_hash($newpswd, PASSWORD_DEFAULT);
+								$sql = "UPDATE users SET admin_pass='" . $hash_newpswd . "' WHERE id='" . $user_id . "'";
+								if (@$connection->query(sprintf($sql))) {
+									$_SESSION['password_change_message'] = '<span style="color:green"><b>The password has been changed successfully.</b></span>';
+								} 
+								else {
+									$_SESSION['password_change_message'] = '<span style="color:red">We couldn\'t update the password. Please try again later.</span>';
+								}
+								header("Location:adminpanel.php");
+							}
 						}
 
 						else {
-							$hash_newpswd = password_hash($newpswd, PASSWORD_DEFAULT);
-							$sql = "UPDATE access set course_pswd='" . $hash_newpswd . "' WHERE id='" . $access_id . "'";
-							if (@$connection->query(sprintf("UPDATE access set course_pswd='" . $hash_newpswd . "' WHERE id='" . $access_id . "'"))) {
-								$_SESSION['password_change_message'] = '<span style="color:green"><b>The password has been changed successfully.</b></span>';
-								header("Location:coursecontent.php?courseid=$id");
-							} 
-							else {
-								$_SESSION['password_change_message'] = '<span style="color:red">We couldn\'t update the password. Please try again later.</span>';
-							 	header("Location:coursecontent.php?courseid=$id");
-							}
+							header("Location:passchange.php");
 						}
 					}
 
 					else {
+						$_SESSION['pc_error1'] = "The password you entered is incorrect.";
 						header("Location:passchange.php");
 					}
-				}
+				}	
+			}
+		}
+		else {
+			# user is changing password
+			$id = $_SESSION['courseid'];
+			$access_id = $_SESSION["accessid$id"];
+			$user_id = $_SESSION['userid'];
+			$validation = true;
+			
+			$cpswd = $_POST['cpswd'];					# current password
+			$newpswd = $_POST['newpswd'];				# new password
+			$cnewpswd = $_POST['cnewpswd'];				# confirmed new password
 
-				else {
-					$_SESSION['pc_error1'] = "The password you entered is incorrect.";
-					header("Location:passchange.php");
-				}
-			}	
+			if($result = @$connection->query(sprintf("SELECT * FROM access WHERE id=$access_id AND user_id=$user_id"))) {
+				$num = $result->num_rows;
+				if($num>0) {
+					$row = $result->fetch_assoc();
+					if(password_verify($cpswd, $row['course_pswd'])){
+						$result->free();
+						
+						if((strlen($newpswd)<2 || strlen($newpswd)>20) || (strlen($cnewpswd)<2 || strlen($cnewpswd)>20)){
+							$validation = false;
+							$_SESSION['pc_error2'] = "The new password must consist of 8 to 20 characters.";
+						}
+
+						if($validation==true) {
+							if(strcmp($newpswd, $cnewpswd) != 0){
+								$_SESSION['pc_error3'] = "The new passwords do not match.";
+								header("Location:passchange.php");
+							}
+
+							else {
+								$hash_newpswd = password_hash($newpswd, PASSWORD_DEFAULT);
+								$sql = "UPDATE access set course_pswd='" . $hash_newpswd . "' WHERE id='" . $access_id . "'";
+								if (@$connection->query(sprintf("UPDATE access set course_pswd='" . $hash_newpswd . "' WHERE id='" . $access_id . "'"))) {
+									$_SESSION['password_change_message'] = '<span style="color:green"><b>The password has been changed successfully.</b></span>';
+									header("Location:coursecontent.php?courseid=$id");
+								} 
+								else {
+									$_SESSION['password_change_message'] = '<span style="color:red">We couldn\'t update the password. Please try again later.</span>';
+								 	header("Location:coursecontent.php?courseid=$id");
+								}
+							}
+						}
+
+						else {
+							header("Location:passchange.php");
+						}
+					}
+
+					else {
+						$_SESSION['pc_error1'] = "The password you entered is incorrect.";
+						header("Location:passchange.php");
+					}
+				}	
+			}
 		}
 
 		$connection->close();

@@ -1,19 +1,24 @@
 <?php
 	session_start();
 
-	$id = $_SESSION['courseid'];
-	if((!isset($_SESSION["loggedin$id"])) && ($_SESSION["loggedin$id"]!=true)){		# checking if the person is logged in for this course
-		header("Location: course.php?courseid=$id");
-		exit();
+	if(isset($_SESSION['admin']) && ($_SESSION['admin']==true)) {
+		$admin_logged = true;
 	}
+	else {
+		$admin_logged = false;
+		$id = $_SESSION['courseid'];
+		if((!isset($_SESSION["loggedin$id"])) && ($_SESSION["loggedin$id"]!=true)){		# checking if the person is logged in for this course
+			header("Location: course.php?courseid=$id");
+			exit();
+		}
+	}	
 
 	require_once "connect.php";
 	$connection = @new mysqli($host, $db_user, $db_pswd, $db_name);		# connecting to database
 	if($connection->connect_errno!=0) {	
 		echo "Error: ".$connection->connect_errno;
 	}
-
-	else {
+	elseif(!$admin_logged) {
 		$id = $_SESSION['courseid'];
 		$sql = "SELECT * FROM courses WHERE id=$id";
 		if($result = @$connection->query($sql)){
@@ -45,7 +50,12 @@
 	<h3>Change password</h3>
 
 	<?php
-		echo "You are changing your password for the course \"$title\".";
+		if($admin_logged) {
+			echo "Changing admin's password";
+		}
+		else {
+			echo "You are changing your password for the course \"$title\".";
+		}
 	?>
 
 	<form action="pswdchange.php" method="post">
