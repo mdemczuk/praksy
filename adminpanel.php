@@ -1,4 +1,3 @@
-  
 <?php
 	session_start();
 
@@ -6,6 +5,12 @@
 	if(!((isset($_SESSION['admin'])) && ($_SESSION['admin']==true))) {
 		header('Location: index.php');
 		exit();
+	}
+
+	if(isset($_SESSION['password_change_message'])){
+		$message = $_SESSION['password_change_message'];
+		echo "$message <br/>";
+		unset($_SESSION['password_change_message']);
 	}
 
 ?>
@@ -21,7 +26,13 @@
 
 <body>
 
-	<h2>Administration panel</h2>
+	<div style="float: left;">
+		<h2>Administration panel</h2>
+	</div>
+	<div style="float: right; padding: 20px;">
+		<a href='passchange.php'>Change password</a>
+	</div>
+	<div style="clear: both;"></div>
 
 	<a href="addcourse.php">Add course</a> <br />
 	<a href="delcourse.php">Delete course</a> <br />
